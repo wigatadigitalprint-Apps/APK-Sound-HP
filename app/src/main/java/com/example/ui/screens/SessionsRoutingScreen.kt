@@ -19,6 +19,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.GraphicEq
 import androidx.compose.material.icons.filled.Headphones
 import androidx.compose.material.icons.filled.LibraryMusic
+import androidx.compose.material.icons.filled.MusicNote
+import androidx.compose.material.icons.filled.OndemandVideo
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.RadioButtonChecked
 import androidx.compose.material.icons.filled.RadioButtonUnchecked
@@ -41,6 +43,7 @@ import androidx.compose.ui.unit.dp
 import com.example.R
 import com.example.audio.RoutingMode
 import com.example.ui.EqUiState
+import com.example.ui.theme.AmberGlow
 import com.example.ui.theme.AmberWarm
 import com.example.ui.theme.CoralPeak
 import com.example.ui.theme.CyanGlow
@@ -61,6 +64,9 @@ fun SessionsRoutingScreen(
     onSelectRoutingMode: (RoutingMode) -> Unit,
     onOpenYouTube: () -> Unit,
     onOpenYouTubeMusic: () -> Unit,
+    onOpenSpotifyWeb: () -> Unit,
+    onLaunchGoTubeApp: () -> Unit,
+    onLaunchSpotifyApp: () -> Unit,
     onRebindEngine: () -> Unit,
     onRequestLiveFft: () -> Unit,
     modifier: Modifier = Modifier
@@ -72,7 +78,7 @@ fun SessionsRoutingScreen(
             .padding(horizontal = 16.dp, vertical = 12.dp),
         verticalArrangement = Arrangement.spacedBy(14.dp)
     ) {
-        // YouTube & External Media Integration Card
+        // Streaming Apps & In-App Player Integration Card
         Surface(
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(18.dp),
@@ -90,7 +96,7 @@ fun SessionsRoutingScreen(
                 ) {
                     Column(modifier = Modifier.weight(1f)) {
                         Text(
-                            text = "YOUTUBE & MEDIA ENGINE",
+                            text = "YOUTUBE, GOTUBE & SPOTIFY",
                             style = MaterialTheme.typography.titleSmall,
                             color = TextPrimary
                         )
@@ -114,14 +120,15 @@ fun SessionsRoutingScreen(
                 }
 
                 Text(
-                    text = "Keep this foreground DSP engine running, then play any song or video in YouTube or YouTube Music. Your 10-band EQ and Bass Boost apply automatically in the background.",
+                    text = "Play YouTube, YT Music, or Spotify Web directly inside the Player tab, or launch the external GoTube & Spotify apps while this DSP service stays active in the background.",
                     style = MaterialTheme.typography.bodySmall,
                     color = TextSecondary
                 )
 
+                // Row 1: In-App Players (YouTube & YT Music)
                 Row(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(10.dp)
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     Button(
                         onClick = onOpenYouTube,
@@ -141,7 +148,7 @@ fun SessionsRoutingScreen(
                             modifier = Modifier.size(18.dp)
                         )
                         Spacer(modifier = Modifier.width(6.dp))
-                        Text(stringResource(R.string.open_youtube))
+                        Text("YouTube")
                     }
 
                     FilledTonalButton(
@@ -152,7 +159,7 @@ fun SessionsRoutingScreen(
                             .testTag("sessions_open_yt_music"),
                         shape = RoundedCornerShape(12.dp),
                         colors = ButtonDefaults.filledTonalButtonColors(
-                            containerColor = StudioElevatedButtonBg(),
+                            containerColor = StudioObsidian,
                             contentColor = TextPrimary
                         )
                     ) {
@@ -162,8 +169,77 @@ fun SessionsRoutingScreen(
                             modifier = Modifier.size(18.dp)
                         )
                         Spacer(modifier = Modifier.width(6.dp))
-                        Text(stringResource(R.string.open_yt_music))
+                        Text("YT Music")
                     }
+                }
+
+                // Row 2: GoTube App & Spotify (App + Web)
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    FilledTonalButton(
+                        onClick = onLaunchGoTubeApp,
+                        modifier = Modifier
+                            .weight(1f)
+                            .minimumInteractiveComponentSize()
+                            .testTag("sessions_open_gotube"),
+                        shape = RoundedCornerShape(12.dp),
+                        colors = ButtonDefaults.filledTonalButtonColors(
+                            containerColor = AmberGlow,
+                            contentColor = AmberWarm
+                        )
+                    ) {
+                        Icon(
+                            imageVector = Icons.Filled.OndemandVideo,
+                            contentDescription = "Open GoTube App",
+                            modifier = Modifier.size(18.dp)
+                        )
+                        Spacer(modifier = Modifier.width(6.dp))
+                        Text("GoTube App")
+                    }
+
+                    FilledTonalButton(
+                        onClick = onLaunchSpotifyApp,
+                        modifier = Modifier
+                            .weight(1f)
+                            .minimumInteractiveComponentSize()
+                            .testTag("sessions_open_spotify_app"),
+                        shape = RoundedCornerShape(12.dp),
+                        colors = ButtonDefaults.filledTonalButtonColors(
+                            containerColor = EmeraldGlow,
+                            contentColor = EmeraldActive
+                        )
+                    ) {
+                        Icon(
+                            imageVector = Icons.Filled.MusicNote,
+                            contentDescription = "Open Spotify App",
+                            modifier = Modifier.size(18.dp)
+                        )
+                        Spacer(modifier = Modifier.width(6.dp))
+                        Text("Spotify App")
+                    }
+                }
+
+                FilledTonalButton(
+                    onClick = onOpenSpotifyWeb,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .minimumInteractiveComponentSize()
+                        .testTag("sessions_open_spotify_web"),
+                    shape = RoundedCornerShape(12.dp),
+                    colors = ButtonDefaults.filledTonalButtonColors(
+                        containerColor = StudioModule,
+                        contentColor = EmeraldActive
+                    )
+                ) {
+                    Icon(
+                        imageVector = Icons.Filled.MusicNote,
+                        contentDescription = "Open Spotify Web Inside App",
+                        modifier = Modifier.size(18.dp)
+                    )
+                    Spacer(modifier = Modifier.width(6.dp))
+                    Text("Open Spotify Web Inside Player")
                 }
 
                 OutlinedButton(
@@ -183,6 +259,30 @@ fun SessionsRoutingScreen(
                     Spacer(modifier = Modifier.width(6.dp))
                     Text("Refresh & Re-Attach DSP Engine")
                 }
+            }
+        }
+
+        // Spotify & GoTube Tip Card
+        Surface(
+            modifier = Modifier.fillMaxWidth(),
+            shape = RoundedCornerShape(16.dp),
+            color = StudioModule,
+            border = BorderStroke(1.dp, StudioBorder)
+        ) {
+            Column(
+                modifier = Modifier.padding(14.dp),
+                verticalArrangement = Arrangement.spacedBy(4.dp)
+            ) {
+                Text(
+                    text = "TIP FOR SPOTIFY & GOTUBE",
+                    style = MaterialTheme.typography.labelMedium,
+                    color = EmeraldActive
+                )
+                Text(
+                    text = "• Spotify: Open Spotify Settings → Playback → Equalizer and choose EQ Pro Audio (or keep Auto Routing enabled here).\n• GoTube: Keep Auto Routing enabled—Global Output Mix + session detection automatically enhances GoTube audio.",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = TextSecondary
+                )
             }
         }
 
@@ -275,7 +375,7 @@ fun SessionsRoutingScreen(
                             color = TextPrimary
                         )
                         Text(
-                            text = "Start playing music in YouTube or Spotify. Players that emit audio session broadcasts appear here, while Global Output Mix processes playback automatically.",
+                            text = "Start playing music in YouTube, GoTube, or Spotify. Players that emit audio session broadcasts appear here, while Global Output Mix processes playback automatically.",
                             style = MaterialTheme.typography.bodySmall,
                             color = TextSecondary
                         )
@@ -293,7 +393,11 @@ fun SessionsRoutingScreen(
                         color = StudioModule,
                         border = BorderStroke(
                             1.dp,
-                            if (session.isYouTube) EmeraldActive.copy(alpha = 0.6f) else StudioBorder
+                            if (session.isYouTube || session.packageName.contains("spotify", true)) {
+                                EmeraldActive.copy(alpha = 0.6f)
+                            } else {
+                                StudioBorder
+                            }
                         )
                     ) {
                         Row(
@@ -359,7 +463,7 @@ fun SessionsRoutingScreen(
                         color = TextPrimary
                     )
                     Text(
-                        text = "Android's Visualizer API uses audio capture permission solely to animate real-time FFT spectrum bars synced with YouTube.",
+                        text = "Android's Visualizer API uses audio capture permission solely to animate real-time FFT spectrum bars synced with your music.",
                         style = MaterialTheme.typography.bodySmall,
                         color = TextSecondary
                     )
@@ -384,6 +488,3 @@ fun SessionsRoutingScreen(
         Spacer(modifier = Modifier.height(8.dp))
     }
 }
-
-@Composable
-private fun StudioElevatedButtonBg() = StudioObsidian

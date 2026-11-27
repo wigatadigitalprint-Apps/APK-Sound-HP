@@ -91,15 +91,13 @@ class AudioDspEngine(private val context: Context) {
             dspEnabled = config.isDspEnabled
         )
 
-        val ytSession = externalSessions.firstOrNull { it.isYouTube }
-        val anySession = externalSessions.firstOrNull()
+        val activeSession = externalSessions.firstOrNull()
         val modeTag = config.outputMode.label
         val summary = when {
             !config.isDspEnabled -> "DSP Bypassed • Pass-through audio"
-            ytSession != null -> "$modeTag • Locked: ${ytSession.appLabel} (#${ytSession.sessionId})"
-            anySession != null -> "$modeTag • Locked: ${anySession.appLabel} (#${anySession.sessionId})"
+            activeSession != null -> "$modeTag • Locked: ${activeSession.appLabel} (#${activeSession.sessionId})"
             isMediaPlayingOnDevice && 0 in targetSessions -> "$modeTag • Global Mix (Media Playing)"
-            0 in targetSessions -> "$modeTag • Global Mix (Ready for YouTube)"
+            0 in targetSessions -> "$modeTag • Ready for YouTube, GoTube & Spotify"
             else -> "Waiting for player audio session broadcast"
         }
 

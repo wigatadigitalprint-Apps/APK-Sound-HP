@@ -185,15 +185,27 @@ fun DspStatusBanner(
                         color = statusColor,
                         fontWeight = FontWeight.Bold
                     )
-                    if (hasYtSession) {
+                    val activeSession = runtime.attachedSessions.firstOrNull()
+                    if (activeSession != null) {
+                        val badgeLabel = when {
+                            activeSession.packageName.contains("spotify", ignoreCase = true) -> "SPOTIFY LOCK"
+                            activeSession.packageName.contains("gotube", ignoreCase = true) -> "GOTUBE LOCK"
+                            activeSession.isYouTube -> "YT LOCK"
+                            else -> "SESSION LOCK"
+                        }
+                        val badgeColor = if (activeSession.packageName.contains("spotify", ignoreCase = true)) {
+                            EmeraldActive
+                        } else {
+                            CoralPeak
+                        }
                         Surface(
                             shape = RoundedCornerShape(6.dp),
-                            color = CoralPeak.copy(alpha = 0.18f)
+                            color = badgeColor.copy(alpha = 0.18f)
                         ) {
                             Text(
-                                text = "YT LOCK",
+                                text = badgeLabel,
                                 style = MaterialTheme.typography.labelSmall,
-                                color = CoralPeak,
+                                color = badgeColor,
                                 modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp)
                             )
                         }
@@ -227,7 +239,7 @@ fun DspStatusBanner(
                 )
                 Spacer(modifier = Modifier.width(4.dp))
                 Text(
-                    text = "YouTube",
+                    text = "Player",
                     style = MaterialTheme.typography.labelLarge
                 )
             }

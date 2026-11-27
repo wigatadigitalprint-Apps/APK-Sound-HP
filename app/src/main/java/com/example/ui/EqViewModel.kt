@@ -334,10 +334,17 @@ class EqViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun launchExternalPlayer(packageName: String, fallbackUrl: String) {
+    fun isAnyPackageInstalled(packageNames: List<String>): Boolean {
+        val pm = getApplication<Application>().packageManager
+        return packageNames.any { pkg -> pm.getLaunchIntentForPackage(pkg) != null }
+    }
+
+    fun launchExternalPlayerCandidates(packageNames: List<String>, fallbackUrl: String) {
         val app = getApplication<Application>()
         ensureServiceRunning()
-        val launchIntent = app.packageManager.getLaunchIntentForPackage(packageName)
+        val launchIntent = packageNames.firstNotNullOfOrNull { pkg ->
+            app.packageManager.getLaunchIntentForPackage(pkg)
+        }
         if (launchIntent != null) {
             launchIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             app.startActivity(launchIntent)
@@ -351,6 +358,10 @@ class EqViewModel(application: Application) : AndroidViewModel(application) {
                 Toast.makeText(app, "App not installed on this device", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    fun launchExternalPlayer(packageName: String, fallbackUrl: String) {
+        launchExternalPlayerCandidates(listOf(packageName), fallbackUrl)
     }
 
     override fun onCleared() {
