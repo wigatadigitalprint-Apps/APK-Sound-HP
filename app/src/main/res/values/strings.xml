@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">EQ Pro Audio</string>
+    <string name="nav_equalizer">Equalizer</string>
+    <string name="nav_mixer">Mixer &amp; L/R</string>
+    <string name="nav_dsp_amp">DSP &amp; Sub</string>
+    <string name="nav_sessions">Sessions</string>
+    <string name="dsp_active_label">DSP ACTIVE</string>
+    <string name="dsp_bypassed_label">BYPASSED</string>
+    <string name="open_youtube">Open YouTube</string>
+    <string name="open_yt_music">YT Music</string>
+    <string name="preset_save">Save</string>
+    <string name="preset_reset">Flat 0 dB</string>
+    <string name="notification_channel_name">Audio DSP Engine</string>
+    <string name="notification_channel_desc">Keeps the studio equalizer, mixer, crossover, and subwoofer engine active while playing YouTube and music apps.</string>
+    <string name="notification_title_active">EQ Pro Audio Active</string>
+    <string name="notification_title_bypass">EQ Pro Audio Bypassed</string>
+    <string name="action_toggle_dsp">Toggle DSP</string>
+    <string name="action_stop_service">Stop Engine</string>
+    <string name="cd_dsp_power">Toggle DSP Power</string>
+    <string name="cd_open_youtube">Launch YouTube App</string>
+    <string name="cd_open_yt_music">Launch YouTube Music App</string>
+    <string name="cd_save_preset">Save Custom Preset</string>
+    <string name="cd_delete_preset">Delete Custom Preset</string>
+    <string name="cd_reset_eq">Reset Equalizer Flat</string>
+    <string name="cd_test_audio">Play or Stop Reference Test Audio</string>
+    <string name="cd_live_fft">Toggle Live Spectrum Analyzer</string>
+</resources>

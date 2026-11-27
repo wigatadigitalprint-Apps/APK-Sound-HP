@@ -1,0 +1,6 @@
+{
+  "name": "EQ Pro Audio",
+  "description": "Precision 10-band studio audio equalizer, bass booster, virtualizer, and dynamics processor for YouTube and system media playback.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
